@@ -4,7 +4,7 @@ import 'dart:async';
 
 import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:safe_bloc/src/safe_bloc_base.dart';
+import 'package:safe_bloc/safe_bloc.dart';
 
 export 'package:bloc/bloc.dart' show Emitter;
 
@@ -28,7 +28,7 @@ typedef SafeEventHandler<Event, State> = FutureOr<void> Function(
 });
 
 abstract class SafeBloc<EVENT, STATE> extends Bloc<EVENT, STATE>
-    with SafeBlocBaseMixin<STATE>, BlocPresentationMixin<STATE>
+    with SafeBlocBaseMixin<STATE>, BlocPresentationMixin<STATE, BaseEffect>
     implements SafeBlocBase<STATE> {
   SafeBloc(super.initialState);
 
@@ -56,4 +56,7 @@ abstract class SafeBloc<EVENT, STATE> extends Bloc<EVENT, STATE>
       ),
     );
   }
+
+  @override
+  FutureOr<void> onUnexpectedError(Object? error, StackTrace stackTrace, String? trackingId) => Future.value();
 }

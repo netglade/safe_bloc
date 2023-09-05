@@ -10,7 +10,7 @@ import 'package:safe_bloc/src/unexpected_error.dart';
 
 export 'package:bloc/bloc.dart' show Emitter;
 
-abstract class SafeBlocBase<STATE> extends BlocBase<STATE> with SafeBlocBaseMixin<STATE>, BlocPresentationMixin<STATE> {
+abstract class SafeBlocBase<STATE> extends BlocBase<STATE> with SafeBlocBaseMixin<STATE>, BlocPresentationMixin<STATE, BaseEffect> {
   SafeBlocBase(super._state);
 
   @protected

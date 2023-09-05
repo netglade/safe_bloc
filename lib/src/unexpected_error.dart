@@ -1,5 +1,3 @@
-import 'package:bloc_presentation/bloc_presentation.dart';
-
 class UnexpectedError {
   final dynamic error;
   final StackTrace stackTrace;
@@ -17,6 +15,6 @@ class UnexpectedError {
   String toString() => 'UnexpectedError: error. ${devMessage ?? ''}';
 }
 
-abstract class UnexpectedErrorAPI implements BlocPresentationEvent {
+abstract class UnexpectedErrorAPI {
   UnexpectedError get error;
 }

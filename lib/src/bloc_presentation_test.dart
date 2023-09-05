@@ -7,10 +7,11 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:diff_match_patch/diff_match_patch.dart';
 import 'package:meta/meta.dart';
+import 'package:safe_bloc/safe_bloc.dart';
 import 'package:test/test.dart' as test;
 
 @isTest
-void blocPresentationTest<B extends BlocPresentationMixin<State>, State>(
+void blocPresentationTest<B extends BlocPresentationMixin<State, BaseEffect>, State>(
   String description, {
   required B Function() build,
   FutureOr<void> Function()? setUp,
@@ -23,7 +24,7 @@ void blocPresentationTest<B extends BlocPresentationMixin<State>, State>(
   test.Matcher Function()? errors,
   FutureOr<void> Function()? tearDown,
   Object? tags,
-  List<BlocPresentationEvent> Function()? expectEvents,
+  List<BaseEffect> Function()? expectEvents,
 }) {
   test.test(
     description,
@@ -49,7 +50,7 @@ void blocPresentationTest<B extends BlocPresentationMixin<State>, State>(
 /// Internal [blocPresentationTest] runner which is only visible for testing.
 /// This should never be used directly -- please use [blocPresentationTest] instead.
 @visibleForTesting
-Future<void> testBloc<B extends BlocPresentationMixin<State>, State>({
+Future<void> testBloc<B extends BlocPresentationMixin<State, BaseEffect>, State>({
   required B Function() build,
   FutureOr<void> Function()? setUp,
   State Function()? seed,
@@ -60,7 +61,7 @@ Future<void> testBloc<B extends BlocPresentationMixin<State>, State>({
   FutureOr<void> Function(B bloc)? verify,
   test.Matcher Function()? errors,
   FutureOr<void> Function()? tearDown,
-  List<BlocPresentationEvent> Function()? expectEvents,
+  List<BaseEffect> Function()? expectEvents,
 }) async {
   var shallowEquality = false;
   final unhandledErrors = <Object>[];
@@ -75,7 +76,7 @@ Future<void> testBloc<B extends BlocPresentationMixin<State>, State>({
     () async {
       await setUp?.call();
       final states = <State>[];
-      final events = <BlocPresentationEvent>[];
+      final events = <BaseEffect>[];
       final bloc = build();
       if (seed != null) bloc.emit(seed());
       final subscription = bloc.stream.skip(skip).listen(states.add);
@@ -186,13 +187,10 @@ extension on List<Diff> {
       switch (difference.operation) {
         case DIFF_EQUAL:
           buffer.write(identical(difference.text));
-          break;
         case DIFF_DELETE:
           buffer.write(deletion(difference.text));
-          break;
         case DIFF_INSERT:
           buffer.write(insertion(difference.text));
-          break;
       }
     }
 

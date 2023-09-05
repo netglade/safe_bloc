@@ -1,37 +1,62 @@
+import 'dart:io';
+
 import 'package:bloc_presentation/bloc_presentation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safe_bloc/safe_bloc.dart';
 
 typedef UnexpectedErrorWidgetBuilder = Widget Function(BuildContext context, UnexpectedError error);
 
+typedef UnexpectedErrorActionCallback = Future<void> Function(UnexpectedError error);
+
 class UnexpectedErrorHandler<BLOC extends SafeBlocBase<STATE>, STATE> extends StatelessWidget {
   final Widget child;
-  final UnexpectedErrorWidgetBuilder errorWidget;
-  final Future<void> Function(UnexpectedError error) onError;
+  // TODO(dev): implement default error screen
+  final UnexpectedErrorWidgetBuilder errorScreen;
+  final UnexpectedErrorActionCallback? onErrorAction;
 
   const UnexpectedErrorHandler({
     required this.child,
-    required this.errorWidget,
-    required this.onError,
+    required this.errorScreen,
+    this.onErrorAction,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.watch<BLOC?>();
+    final bloc = context.watch<BLOC?>();
 
-    if (cubit == null) return child;
+    if (bloc == null) return child;
 
-    return BlocPresentationListener<BLOC>(
+    return BlocPresentationListener<BLOC, BaseEffect>(
       listener: (context, effect) async {
         if (effect is UnexpectedErrorAPI) {
-          final navigator = Navigator.of(context);
+          final error = (effect as UnexpectedErrorAPI).error;
 
-          final isCurrent = ModalRoute.of(context)?.isCurrent ?? true;
-          if (!isCurrent && navigator.canPop()) navigator.pop();
-
-          await onError.call(effect.error);
+          if (onErrorAction != null) {
+            await onErrorAction?.call(error);
+          } else {
+            await showAdaptiveDialog<void>(
+              context: context,
+              builder: (context) => AlertDialog.adaptive(
+                title: const Text('Something went wrong!'),
+                content: Text(error.error.toString()),
+                actions: [
+                  if (Platform.isAndroid)
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('OK'),
+                    ),
+                  if (Platform.isIOS)
+                    CupertinoDialogAction(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('OK'),
+                    ),
+                ],
+              ),
+            );
+          }
         }
       },
       child: BlocBuilder<BLOC, STATE>(
@@ -40,7 +65,7 @@ class UnexpectedErrorHandler<BLOC extends SafeBlocBase<STATE>, STATE> extends St
             return Material(
               child: Builder(
                 builder: (context) {
-                  return errorWidget(context, state.error);
+                  return errorScreen(context, state.error);
                 },
               ),
             );

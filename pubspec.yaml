@@ -8,16 +8,16 @@ environment:
 
 dependencies:
   bloc: ^8.1.1
-  bloc_presentation: ^0.2.1+1
+  bloc_presentation: ^0.4.0
+  diff_match_patch: ^0.4.1
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.1.2
+  flutter_bloc: ^8.1.3
   meta: ^1.8.0
   uuid: ^3.0.7
 
 dev_dependencies:
-  bloc_test: ^9.1.0
-  build_runner: ^2.4.5
+  bloc_test: ^9.1.4
   flutter_test:
     sdk: flutter
   mocktail: ^0.3.0
