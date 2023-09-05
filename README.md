@@ -12,6 +12,6 @@ Developed with 💚 by [netglade][netglade_link]
 
 ---
 
-An extension to bloc state management library that efficiently manages unexpected exceptions in a code and displays customizable user-friendly error messages.
+An extension to bloc state management library that manages unexpected exceptions in a code and displays customizable user-friendly error messages.
 
 [netglade_link]: https://netglade.com/en
