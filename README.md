@@ -18,7 +18,7 @@ Developed with 💚 by [netglade][netglade_link]
 An extension to [bloc state management library](https://github.com/felangel/bloc) that manages unexpected exceptions in a code and displays them as customizable user-friendly error messages.
 
 ## Overview
-A library that provides a unified solution to code exceptions handling in blocs and cubits. In addiditon, it presents the errors to the user using a dedicated widget `UnexpectErrorHandler`. The `UnexpectErrorHandler` widget can be customized so that all the error dialogs and screens match your app design. In addition, the exceptions processing is also customizable, they can be either displayed, only logged or totally ignored. `safe_bloc` also offers an advantage of optional onError callback, that is called each time an exception occurs.
+A library that provides a unified solution to code exceptions handling in blocs and cubits. In addition, it presents the errors to the user using a dedicated widget `UnexpectErrorHandler`. The `UnexpectErrorHandler` widget can be customized so that all the error dialogs and screens match your app design. In addition, the exceptions processing is also customizable, they can be either displayed, only logged or totally ignored. `safe_bloc` also offers an advantage of optional onError callback, that is called each time an exception occurs.
 
 This library also distinguishes between two types of error: error state and error actions:
 * **Error states**: These occur only during the initial screen loading. If the screen loading fails, there's no data to display to the user, and the `UnexpectErrorHandler` presents an error screen represented by `errorScreen` parameter.
