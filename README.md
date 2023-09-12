@@ -26,7 +26,7 @@ This library also distinguishes between two types of error: error state and erro
 
 ## Usage
 
-### 1. Create UnexpectedError State
+### 1. Create UnexpectedError state
 First, create an error state that will be emitted in case an exception occurs. This state must implement `UnexpectedErrorAPI`.
 ```dart
 sealed class MyAppState {}
@@ -39,8 +39,7 @@ final class MyAppErrorState extends MyAppState implements UnexpectedErrorAPI {
 }
 ```
 
-
-### 2. Use SafeBloc or SafeCubit Class
+### 2. Use SafeBloc or SafeCubit class
 
 #### Bloc
 In case you are using `Bloc`, extend your bloc with a `SafeBloc` class and override its `errorState` getter with the error state created in the previous step:
@@ -74,8 +73,6 @@ class MyAppCubit extends SafeCubit<MyAppState> {
   MyAppState Function(UnexpectedError error) get errorState => MyAppErrorState.new;
 }
 ```
-
-
 
 Each time an exception occurs, it is caught by the parent class and MyAppErrorState is emitted. This state contains an `UnexpectedError` object with additional information about the exception including the exception itself.
 
