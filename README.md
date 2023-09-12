@@ -60,7 +60,7 @@ event handler instead of standard `on<EVENT>`:
 ```
 
 #### Cubit
-Similarly, if you are using `Cubit`, extend your cubit with as `SafeCubit` class and override the `errorState` getter with the error state you have created in the first step. Then, whenever you want to call a cubit method, wrap the method in a `safeCall` method as follows:
+Similarly, if you are using `Cubit`, extend your cubit with as `SafeCubit` class and override the `errorState` getter with the error state you have created in the first step. Then, wrap all the public cubit methods in a `safeCall` method as follows:
 ```dart
 class MyAppCubit extends SafeCubit<MyAppState> {
   MyAppCubit(super.initialState);
