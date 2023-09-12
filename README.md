@@ -84,6 +84,7 @@ Both `onSafe` and `safeCall` provide a unique `trackingId` that can be used to t
 * `ignoreError` - bool that indicates whether the exception should be ignored. If set to `true`, the exception is caught, but MyAppErrorState is not emitted.
 * `onIgnoreError`(optional) - a callback that is invoked if the exception occurs and `ignoreError` parameter is set to `true`
 
+Additionally, `SafeBloc` and `SafeCubit` offer the option to override the `onUnexpectedError` method. This method is invoked whenever an exception is thrown so that it can be useful for exception logging.
 
 ### 3. Present the error in the UI
 Use the `UnexpectErrorHandler` in your widget tree in order to display the errors:
