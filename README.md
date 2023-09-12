@@ -1,7 +1,7 @@
 <a href="https://github.com/netglade">
   <picture >
     <source media="(prefers-color-scheme: dark)" height='120px' srcset="https://raw.githubusercontent.com/netglade/safe_bloc/main/doc/badge-dark.png">
-    <source media="(prefers-color-scheme: light)" height='120px' srcset="https://raw.githubusercontent.com/netglade/safe_bloc/main/doc/safe_bloc-noSpace.png">
+    <source media="(prefers-color-scheme: light)" height='120px' srcset="https://raw.githubusercontent.com/netglade/safe_bloc/main/doc/badge-light.png">
     <img alt="netglade" height='120px' src="https://raw.githubusercontent.com/netglade/safe_bloc/main/doc/safe_bloc-noSpace.png">
   </picture>
 </a>
@@ -17,16 +17,16 @@ Developed with 💚 by [netglade][netglade_link]
 An extension to [bloc state management library](https://github.com/felangel/bloc) that manages unexpected exceptions in a code and displays them as customizable user-friendly error messages.
 
 ## Overview
-A library that provides a unified solution to code exception handling in blocs and cubits. In addition, it presents the errors to the user using a dedicated widget `UnexpectErrorHandler`. This widget can be customized so that all the error dialogs and screens match your app design. In addition, the exception processing is also customizable, they can be either displayed, only logged, or ignored. `safe_bloc` also offers the advantage of an optional `onUnexpectedError` callback, that is called each time an exception occurs. This can be suitable especially for exception logging.
+A library that provides a unified solution to code exception handling in blocs and cubits. In addition, it presents the errors to the user using a dedicated widget `UnexpectErrorHandler`. This widget can be customized so that all the error dialogs and screens match your app design. Moreover, the exception processing is customizable, they can be either displayed, logged, or ignored. `safe_bloc` also offers the advantage of an optional `onUnexpectedError` callback, that is called each time an exception occurs. This can be suitable especially for exception logging.
 
 This library also distinguishes between two types of error: error state and error actions:
 * **Error states**: These occur only during the initial screen loading. If the screen loading fails, there's no data to display to the user, and the `UnexpectErrorHandler` presents an error screen represented by the `errorScreen` parameter.
 
-* **Error actions**: These typically happen when a user triggers an action (e.g., pressing a button) on an already loaded screen. In this scenario, we don't want to disrupt the user's experience by displaying an error screen and erasing any loaded data. Instead, the `safe_bloc` library simply shows an error dialog, informing the user that the action is currently unavailable. This ensures that the screen's existing data remains accessible to the user.
+* **Error actions**: These typically happen when a user triggers an action (e.g., pressing a button) on an already loaded screen. In this scenario, we don't want to disrupt the user's experience by displaying an error screen and erasing the loaded data. Instead, the `safe_bloc` library simply shows an error dialog, informing the user that the action is currently unavailable. This ensures that the screen's existing data remains accessible to the user.
 
 ## Usage
 
-### 1. Create UnexpectedError State
+### 1. Create UnexpectedError state
 First, create an error state that will be emitted in case an exception occurs. This state must implement `UnexpectedErrorAPI`.
 ```dart
 sealed class MyAppState {}
@@ -39,8 +39,7 @@ final class MyAppErrorState extends MyAppState implements UnexpectedErrorAPI {
 }
 ```
 
-
-### 2. Use SafeBloc or SafeCubit Class
+### 2. Use SafeBloc or SafeCubit class
 
 #### Bloc
 In case you are using `Bloc`, extend your bloc with a `SafeBloc` class and override its `errorState` getter with the error state created in the previous step:
@@ -53,15 +52,15 @@ class MyAppBloc extends SafeBloc<MyAppEvent, MyAppState> {
 }
 ```
 Now, whenever you register a new event handler, use `onSafe<EVENT>`
- event handler instead of standard `on<EVENT>`:
- ```dart
-onSafe<MyBlocEvent>((event, emit, {required trackingId}) async {
-   // do something
-});
- ```
+event handler instead of standard `on<EVENT>`:
+```dart
+  onSafe<MyBlocEvent>((event, emit, {required trackingId}) async {
+     // do something
+  });
+```
 
 #### Cubit
-Similarly, if you are using `Cubit`, extend your cubit with as SafeCubit class and override the `errorState` getter with the error state you have created in the first step. Then, whenever you want to call a cubit method, wrap the method in a `safeCall` method as follows:
+Similarly, if you are using `Cubit`, extend your cubit with as `SafeCubit` class and override the `errorState` getter with the error state you have created in the first step. Then, wrap all the public cubit methods in a `safeCall` method as follows:
 ```dart
 class MyAppCubit extends SafeCubit<MyAppState> {
   MyAppCubit(super.initialState);
@@ -75,9 +74,7 @@ class MyAppCubit extends SafeCubit<MyAppState> {
 }
 ```
 
-
-
-Each time an exception occurs, it is caught by the parent class and MyAppErrorState is emitted. This state contains an `UnexpectedError` object with additional information about the exception including the exception itself.
+Each time an exception occurs, it is caught by the parent class and `MyAppErrorState` is emitted. This state contains an `UnexpectedError` object with additional information about the exception including the exception itself.
 
 Both `onSafe` and `safeCall` provide a unique `trackingId` that can be used to track the user actions. Both methods also provide additional parameters:
 * `devErrorMessage`(optional) - string message that is passed to the `UnexpectedError` object, can be handy for logging
