@@ -1,5 +1,5 @@
 name: safe_bloc
-description: App BLoC base classes with support of unexpected error
+description: An extension to bloc state management library that manages unexpected exceptions.
 version: 1.0.0
 repository: https://github.com/netglade/safe_bloc
 issue_tracker: https://github.com/netglade/safe_bloc/issues
