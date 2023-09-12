@@ -52,12 +52,12 @@ class MyAppBloc extends SafeBloc<MyAppEvent, MyAppState> {
 }
 ```
 Now, whenever you register a new event handler, use `onSafe<EVENT>`
- event handler instead of standard `on<EVENT>`:
- ```dart
-onSafe<MyBlocEvent>((event, emit, {required trackingId}) async {
-   // do something
-});
- ```
+event handler instead of standard `on<EVENT>`:
+```dart
+  onSafe<MyBlocEvent>((event, emit, {required trackingId}) async {
+     // do something
+  });
+```
 
 #### Cubit
 Similarly, if you are using `Cubit`, extend your cubit with as SafeCubit class and override the `errorState` getter with the error state you have created in the first step. Then, whenever you want to call a cubit method, wrap the method in a `safeCall` method as follows:
