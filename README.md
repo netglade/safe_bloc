@@ -22,7 +22,7 @@ A library that provides a unified solution to code exception handling in blocs a
 This library also distinguishes between two types of error: error state and error actions:
 * **Error states**: These occur only during the initial screen loading. If the screen loading fails, there's no data to display to the user, and the `UnexpectErrorHandler` presents an error screen represented by the `errorScreen` parameter.
 
-* **Error actions**: These typically happen when a user triggers an action (e.g., pressing a button) on an already loaded screen. In this scenario, we don't want to disrupt the user's experience by displaying an error screen and erasing any loaded data. Instead, the `safe_bloc` library simply shows an error dialog, informing the user that the action is currently unavailable. This ensures that the screen's existing data remains accessible to the user.
+* **Error actions**: These typically happen when a user triggers an action (e.g., pressing a button) on an already loaded screen. In this scenario, we don't want to disrupt the user's experience by displaying an error screen and erasing the loaded data. Instead, the `safe_bloc` library simply shows an error dialog, informing the user that the action is currently unavailable. This ensures that the screen's existing data remains accessible to the user.
 
 ## Usage
 
