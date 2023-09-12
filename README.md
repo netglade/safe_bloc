@@ -11,6 +11,8 @@ Developed with 💚 by [netglade][netglade_link]
 [![license: MIT][license_badge]][license_badge_link]
 [![style: netglade analysis][style_badge]][style_badge_link]
 [![Discord][discord_badge]][discord_badge_link]
+[![ci][ci_badge]][ci_badge_link]
+[![pub package][safe_bloc_pub_badge]][safe_bloc_pub_badge_link]
 
 ---
 
@@ -110,3 +112,7 @@ UnexpectedErrorHandler<MyAppBloc, MyAppState>(
 [style_badge_link]: https://pub.dev/packages/netglade_analysis
 [discord_badge]: https://img.shields.io/discord/1091460081054400532.svg?logo=discord&color=blue
 [discord_badge_link]: https://discord.gg/WfrS8MAd
+[ci_badge]: https://github.com/netglade/safe_bloc/workflows/ci/badge.svg
+[ci_badge_link]: https://github.com/netglade/safe_bloc/actions
+[safe_bloc_pub_badge]: https://img.shields.io/pub/v/safe_bloc.svg
+[safe_bloc_pub_badge_link]: https://pub.dartlang.org/packages/safe_bloc
