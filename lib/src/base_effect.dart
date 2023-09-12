@@ -1,10 +1,14 @@
 import 'package:safe_bloc/src/unexpected_error.dart';
 
-abstract class BaseEffect {}
+/// General parent effect.
+abstract class BaseEffect {
+  const BaseEffect();
+}
 
+/// Error effect that is emitted by `SafeBloc`/`SafeCubit` if exception in its event handler/method occurs.
 class UnexpectedErrorEffect extends BaseEffect implements UnexpectedErrorAPI {
   @override
   final UnexpectedError error;
 
-  UnexpectedErrorEffect(this.error);
+  const UnexpectedErrorEffect(this.error);
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safe_bloc/safe_bloc.dart';
@@ -9,6 +10,7 @@ void main() {
   runApp(const MainApp());
 }
 
+/// Flutter Counter app that stores the count to shared preferences and loads it back at the app start.
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
@@ -35,7 +37,6 @@ class CounterView extends StatelessWidget {
       appBar: AppBar(title: const Text('Counter')),
       body: Center(
         child: UnexpectedErrorHandler<CounterBloc, CounterState>(
-          errorScreen: (context, error) => Text(error.toString()),
           child: BlocBuilder<CounterBloc, CounterState>(
             builder: (context, state) {
               if (state is! CounterLoaded) return const CircularProgressIndicator();
@@ -75,7 +76,7 @@ final class CounterLoaded extends CounterState {
   CounterLoaded({required this.count});
 }
 
-final class CounterBlocError extends CounterState  implements UnexpectedErrorAPI {
+final class CounterBlocError extends CounterState implements UnexpectedErrorAPI {
   @override
   final UnexpectedError error;
 
@@ -84,34 +85,45 @@ final class CounterBlocError extends CounterState  implements UnexpectedErrorAPI
 
 class CounterBloc extends SafeBloc<CounterEvent, CounterState> {
   CounterBloc() : super(CounterLoading()) {
+    // `isAction` parameter is set to false for initial data loading
+    onSafe<LoadCounter>(_loadCounter, isAction: false);
+
+    // `isAction` parameter is set to true for user action
     onSafe<IncrementPressed>(_increment, isAction: true);
-    onSafe<LoadCounter>(_loadCounter);
   }
 
   FutureOr<void> _increment(IncrementPressed event, SafeEmitter<CounterState> emit, {required String trackingId}) async {
-    final currentState = state;
-    if (currentState is! CounterLoaded) return;
+    if (state case final CounterLoaded loaded)  {
+      final incrementedCount = loaded.count + 1;
 
-    final incrementedCount = currentState.count + 1;
+      final preferences = await SharedPreferences.getInstance();
+      await preferences.setInt('count_key', incrementedCount);
 
-    final preferences = await SharedPreferences.getInstance();
-    await preferences.setInt('count_key', incrementedCount);
+      // uncomment the exception throwing to test the error dialog
+      // throw Exception("Something wrong happened");
 
-    //throw Exception("Something wrong happened");
-
-    emit(CounterLoaded(count: incrementedCount));
+      emit(CounterLoaded(count: incrementedCount));
+    }
   }
 
   FutureOr<void> _loadCounter(LoadCounter event, SafeEmitter<CounterState> emit, {required String trackingId}) async {
     final preferences = await SharedPreferences.getInstance();
     final count = preferences.get('count_key') as int?;
 
-    //throw Exception("Something wrong happened when counter loading");
+    // uncomment the exception throwing to test the error screen
+    // throw Exception("Something wrong happened when counter loading");
 
     emit(CounterLoaded(count: count ?? 0));
   }
 
   @override
   CounterState Function(UnexpectedError error) get errorState => CounterBlocError.new;
+
+  @override
+  FutureOr<void> onUnexpectedError(Object? error, StackTrace stackTrace, String? trackingId) {
+    if (kDebugMode) {
+      print('Exception: $error, $stackTrace');
+    }
+  }
 
 }

@@ -1,7 +1,17 @@
+/// Object that stores information about exceptions thrown in Blocs and Cubits.
 class UnexpectedError {
+  // Thrown exception
+  // Exception or Error has unknown type
+  // ignore: avoid-dynamic
   final dynamic error;
+
+  // Exception stacktrace
   final StackTrace stackTrace;
+
+  // Additional info message about the exception
   final String? devMessage;
+
+  // specifies if exception was thrown during the initial data loading (`false`) or during the user action (`true`)
   final bool isAction;
 
   const UnexpectedError({
@@ -15,6 +25,9 @@ class UnexpectedError {
   String toString() => 'UnexpectedError: error. ${devMessage ?? ''}';
 }
 
+/// API that is implemented by Bloc/Cubit's error states and effects.
 abstract class UnexpectedErrorAPI {
   UnexpectedError get error;
+
+  const UnexpectedErrorAPI();
 }
