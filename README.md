@@ -16,7 +16,7 @@ Developed with 💚 by [netglade][netglade_link]
 An extension to [bloc state management library](https://github.com/felangel/bloc) that manages unexpected exceptions in a code and displays them as customizable user-friendly error messages.
 
 ## Overview
-A library that provides a unified solution to code exception handling in blocs and cubits. In addition, it presents the errors to the user using a dedicated widget `UnexpectErrorHandler`. The `UnexpectErrorHandler` widget can be customized so that all the error dialogs and screens match your app design. In addition, the exception processing is also customizable, they can be either displayed, only logged, or ignored. `safe_bloc` also offers the advantage of an optional `onUnexpectedError` callback, that is called each time an exception occurs.
+A library that provides a unified solution to code exception handling in blocs and cubits. In addition, it presents the errors to the user using a dedicated widget `UnexpectErrorHandler`. This widget can be customized so that all the error dialogs and screens match your app design. In addition, the exception processing is also customizable, they can be either displayed, only logged, or ignored. `safe_bloc` also offers the advantage of an optional `onUnexpectedError` callback, that is called each time an exception occurs. This can be suitable especially for exception logging.
 
 This library also distinguishes between two types of error: error state and error actions:
 * **Error states**: These occur only during the initial screen loading. If the screen loading fails, there's no data to display to the user, and the `UnexpectErrorHandler` presents an error screen represented by the `errorScreen` parameter.
@@ -24,7 +24,6 @@ This library also distinguishes between two types of error: error state and erro
 * **Error actions**: These typically happen when a user triggers an action (e.g., pressing a button) on an already loaded screen. In this scenario, we don't want to disrupt the user's experience by displaying an error screen and erasing any loaded data. Instead, the `safe_bloc` library simply shows an error dialog, informing the user that the action is currently unavailable. This ensures that the screen's existing data remains accessible to the user.
 
 ## Usage
-
 
 ### 1. Create UnexpectedError State
 First, create an error state that will be emitted in case an exception occurs. This state must implement `UnexpectedErrorAPI`.
