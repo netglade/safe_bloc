@@ -2,7 +2,7 @@
   <picture >
     <source media="(prefers-color-scheme: dark)" height='120px' srcset="https://raw.githubusercontent.com/netglade/safe_bloc/main/doc/badge-light.png">
     <source media="(prefers-color-scheme: light)" height='120px' srcset="https://raw.githubusercontent.com/netglade/safe_bloc/main/doc/badge-dark.png">
-    <img alt="netglade" height='120px' src="https://raw.githubusercontent.com/netglade/sliver_app_bar_builder/main/doc/badge-dark.png">
+    <img alt="netglade" height='120px' src="https://raw.githubusercontent.com/netglade/safe_bloc/main/doc/badge-dark.png">
   </picture>
 </a>
 
