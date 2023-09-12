@@ -92,8 +92,9 @@ class CounterBloc extends SafeBloc<CounterEvent, CounterState> {
     onSafe<IncrementPressed>(_increment, isAction: true);
   }
 
-  FutureOr<void> _increment(IncrementPressed event, SafeEmitter<CounterState> emit, {required String trackingId}) async {
-    if (state case final CounterLoaded loaded)  {
+  FutureOr<void> _increment(IncrementPressed event, SafeEmitter<CounterState> emit,
+      {required String trackingId}) async {
+    if (state case final CounterLoaded loaded) {
       final incrementedCount = loaded.count + 1;
 
       final preferences = await SharedPreferences.getInstance();
@@ -125,5 +126,4 @@ class CounterBloc extends SafeBloc<CounterEvent, CounterState> {
       print('Exception: $error, $stackTrace');
     }
   }
-
 }

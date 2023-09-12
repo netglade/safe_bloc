@@ -16,7 +16,6 @@ abstract class SafeCubit<STATE> extends Cubit<STATE>
     implements SafeBlocBase<STATE> {
   SafeCubit(super.initialState);
 
-
   /// Wraps a cubit callback in try-catch block and processes them based on specified parameters.
   ///  - [devErrorMessage] - A string message that is passes to UnexpectedError object in emitted event or state.
   ///  - [isAction] - If set to true, the passed `callback` is a user action (e.g button pressing). If set to false(default), the `callback` is a initial data loading.

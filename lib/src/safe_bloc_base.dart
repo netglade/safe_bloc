@@ -10,7 +10,8 @@ import 'package:safe_bloc/src/unexpected_error.dart';
 
 export 'package:bloc/bloc.dart' show Emitter;
 
-abstract class SafeBlocBase<STATE> extends BlocBase<STATE> with SafeBlocBaseMixin<STATE>, BlocPresentationMixin<STATE, BaseEffect> {
+abstract class SafeBlocBase<STATE> extends BlocBase<STATE>
+    with SafeBlocBaseMixin<STATE>, BlocPresentationMixin<STATE, BaseEffect> {
   SafeBlocBase(super._state);
 
   /// A method that is called each time the exception in the inherited Bloc or Cubit is thrown.
