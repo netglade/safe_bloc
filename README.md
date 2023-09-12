@@ -74,7 +74,7 @@ class MyAppCubit extends SafeCubit<MyAppState> {
 }
 ```
 
-Each time an exception occurs, it is caught by the parent class and MyAppErrorState is emitted. This state contains an `UnexpectedError` object with additional information about the exception including the exception itself.
+Each time an exception occurs, it is caught by the parent class and `MyAppErrorState` is emitted. This state contains an `UnexpectedError` object with additional information about the exception including the exception itself.
 
 Both `onSafe` and `safeCall` provide a unique `trackingId` that can be used to track the user actions. Both methods also provide additional parameters:
 * `devErrorMessage`(optional) - string message that is passed to the `UnexpectedError` object, can be handy for logging
