@@ -9,18 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
-      - uses: dart-lang/setup-dart@v1
-
-      - name: Configure FVM
-        uses: kuhnroyal/flutter-fvm-config-action@v1
-
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ env.FLUTTER_CHANNEL }}
+      - uses: subosito/flutter-action@v2.8.0
 
       - name: Install Dependencies
         run: flutter pub get
@@ -28,7 +20,7 @@ jobs:
       - name: Format
         run: dart format --set-exit-if-changed .
 
-      - name: Analyze
+      - name: Flutter Analyze
         run: dart analyze .
 
       - name: Install DCM
