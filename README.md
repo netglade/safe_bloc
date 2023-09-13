@@ -8,11 +8,12 @@
 
 Developed with 💚 by [netglade][netglade_link]
 
+[![ci][ci_badge]][ci_badge_link]
+[![pub package][safe_bloc_pub_badge]][safe_bloc_pub_badge_link]
 [![license: MIT][license_badge]][license_badge_link]
 [![style: netglade analysis][style_badge]][style_badge_link]
 [![Discord][discord_badge]][discord_badge_link]
-[![ci][ci_badge]][ci_badge_link]
-[![pub package][safe_bloc_pub_badge]][safe_bloc_pub_badge_link]
+
 
 ---
 
@@ -106,13 +107,14 @@ UnexpectedErrorHandler<MyAppBloc, MyAppState>(
 `UnexpectErrorHandler` provides a parameter `errorScreen` to display the errors during the initial screen loading and parameter `onErrorAction` for the error actions. `onErrorAction` callback is invoked if the `isAction` parameter of the `onSafe`/`safeCall` method is set to `true`.
  
 [netglade_link]: https://netglade.com/en
+
+[ci_badge]: https://github.com/netglade/safe_bloc/workflows/ci/badge.svg
+[ci_badge_link]: https://github.com/netglade/safe_bloc/actions
+[safe_bloc_pub_badge]: https://img.shields.io/pub/v/safe_bloc.svg
+[safe_bloc_pub_badge_link]: https://pub.dartlang.org/packages/safe_bloc
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license_badge_link]: https://opensource.org/licenses/MIT
 [style_badge]: https://img.shields.io/badge/style-netglade_analysis-26D07C.svg
 [style_badge_link]: https://pub.dev/packages/netglade_analysis
 [discord_badge]: https://img.shields.io/discord/1091460081054400532.svg?logo=discord&color=blue
 [discord_badge_link]: https://discord.gg/WfrS8MAd
-[ci_badge]: https://github.com/netglade/safe_bloc/workflows/ci/badge.svg
-[ci_badge_link]: https://github.com/netglade/safe_bloc/actions
-[safe_bloc_pub_badge]: https://img.shields.io/pub/v/safe_bloc.svg
-[safe_bloc_pub_badge_link]: https://pub.dartlang.org/packages/safe_bloc
