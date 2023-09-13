@@ -2,7 +2,7 @@
   <picture >
     <source media="(prefers-color-scheme: dark)" height='120px' srcset="https://raw.githubusercontent.com/netglade/safe_bloc/main/doc/badge-dark.png">
     <source media="(prefers-color-scheme: light)" height='120px' srcset="https://raw.githubusercontent.com/netglade/safe_bloc/main/doc/badge-light.png">
-    <img alt="netglade" height='120px' src="https://raw.githubusercontent.com/netglade/safe_bloc/main/doc/safe_bloc-noSpace.png">
+    <img alt="netglade" height='120px' src="https://raw.githubusercontent.com/netglade/safe_bloc/main/doc/badge-light.png">
   </picture>
 </a>
 
@@ -57,9 +57,9 @@ class MyAppBloc extends SafeBloc<MyAppEvent, MyAppState> {
 Now, whenever you register a new event handler, use `onSafe<EVENT>`
 event handler instead of standard `on<EVENT>`:
 ```dart
-  onSafe<MyBlocEvent>((event, emit, {required trackingId}) async {
+  onSafe<MyBlocEvent>(event, emit, {required trackingId}) async {
      // do something
-  });
+  }
 ```
 
 #### Cubit
