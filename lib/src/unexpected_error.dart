@@ -26,8 +26,8 @@ class UnexpectedError {
 }
 
 /// API that is implemented by Bloc/Cubit's error states and effects.
-abstract class UnexpectedErrorAPI {
+abstract class UnexpectedErrorBase {
   UnexpectedError get error;
 
-  const UnexpectedErrorAPI();
+  const UnexpectedErrorBase();
 }

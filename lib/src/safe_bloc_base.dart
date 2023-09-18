@@ -4,14 +4,13 @@ import 'dart:io';
 import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:safe_bloc/src/base_effect.dart';
 import 'package:safe_bloc/src/tracking_id_service.dart';
 import 'package:safe_bloc/src/unexpected_error.dart';
 
 export 'package:bloc/bloc.dart' show Emitter;
 
-abstract class SafeBlocBase<STATE> extends BlocBase<STATE>
-    with SafeBlocBaseMixin<STATE>, BlocPresentationMixin<STATE, BaseEffect> {
+abstract class SafeBlocBase<STATE, EFFECT> extends BlocBase<STATE>
+    with SafeBlocBaseMixin<STATE, EFFECT>, BlocPresentationMixin<STATE, EFFECT> {
   SafeBlocBase(super._state);
 
   /// A method that is called each time the exception in the inherited Bloc or Cubit is thrown.
@@ -21,7 +20,7 @@ abstract class SafeBlocBase<STATE> extends BlocBase<STATE>
   }
 }
 
-mixin SafeBlocBaseMixin<STATE> on BlocBase<STATE> {
+mixin SafeBlocBaseMixin<STATE, EFFECT> on BlocBase<STATE> {
   /// Returns an instance of state that is emitted if exception in callback occurs and
   /// the callback represents an initial data loading (`isAction` parameter `is false`).
   @protected
@@ -30,14 +29,14 @@ mixin SafeBlocBaseMixin<STATE> on BlocBase<STATE> {
   /// Returns an instance of effect that is emitted if exception in callback occurs
   /// and the callback represents an user action (`isAction` parameter is `true`).
   @protected
-  BaseEffect Function(UnexpectedError) get errorEffect => UnexpectedErrorEffect.new;
+  EFFECT Function(UnexpectedError) get errorEffect;
 
   /// Wraps a cubit callback in try-catch block and processes them based on specified parameters.
   @internal
   Future<void> safeCallInternal(
     void Function(STATE state) emit,
     FutureOr<void> Function(String trackingId) callback, {
-    required FutureOr<void> Function(BaseEffect effect) invokeActionSideEffect,
+    required FutureOr<void> Function(EFFECT effect) invokeActionSideEffect,
     String? devErrorMessage,
     bool isAction = false,
     bool ignoreError = false,

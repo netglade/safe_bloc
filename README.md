@@ -30,11 +30,11 @@ This library also distinguishes between two types of error: error state and erro
 ## Usage
 
 ### 1. Create UnexpectedError state
-First, create an error state that will be emitted in case an exception occurs. This state must implement `UnexpectedErrorAPI`.
+First, create an error state that will be emitted in case an exception occurs. This state must implement `UnexpectedErrorBase`.
 ```dart
 sealed class MyAppState {}
 
-final class MyAppErrorState extends MyAppState implements UnexpectedErrorAPI {
+final class MyAppErrorState extends MyAppState implements UnexpectedErrorBase {
   @override
   final UnexpectedError error;
 

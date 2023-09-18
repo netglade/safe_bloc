@@ -6,7 +6,7 @@ abstract class BaseEffect {
 }
 
 /// Error effect that is emitted by `SafeBloc`/`SafeCubit` if exception in its event handler/method occurs.
-class UnexpectedErrorEffect extends BaseEffect implements UnexpectedErrorAPI {
+class UnexpectedErrorEffect extends BaseEffect implements UnexpectedErrorBase {
   @override
   final UnexpectedError error;
 
