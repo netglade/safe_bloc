@@ -107,7 +107,7 @@ UnexpectedErrorHandler<MyAppBloc, MyAppState>(
 `UnexpectErrorHandler` provides a parameter `errorScreen` to display the errors during the initial screen loading and parameter `onErrorAction` for the error actions. `onErrorAction` callback is invoked if the `isAction` parameter of the `onSafe`/`safeCall` method is set to `true`.
 
 ### Using presentation events in you app
-This library makes use of the [bloc_presentation](https://pub.dev/packages/bloc_presentation) library to handle the user error action events. This library adds another stream to the bloc/cubit in order to present one-time events (e.g. dialogs or snackbars) to the user. `safe_bloc` library uses a `BaseEffect` as a presentation event
+This library makes use of the [bloc_presentation](https://pub.dev/packages/bloc_presentation) library to handle the user error action events. `bloc_presentation` adds another stream to the bloc/cubit in order to present one-time events (e.g. dialogs or snackbars) to the user. `safe_bloc` library uses a `BaseEffect` as a presentation event
 and its inherited `UnexpectedErrorEffect` class for exception handling. However, if you have specific presentation events you would like to use in your bloc or cubit, you can create your own implementation of presentation events and use them in combination with `SafeBlocWithPresentation` or `SafeCubitWithPresentation` like this:
 ```dart
 class MyAppCubit extends SafeCubitWithPresentation<MyAppState, MyAppPresentationEvent> {
