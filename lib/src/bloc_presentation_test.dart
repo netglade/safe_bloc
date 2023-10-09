@@ -181,10 +181,11 @@ String _diff<State>({required List<State> expected, required List<State> actual}
 }
 
 extension on List<Diff> {
+  String identical(String str) => '\u001b[90m$str\u001B[0m';
+  String deletion(String str) => '\u001b[31m[-$str-]\u001B[0m';
+  String insertion(String str) => '\u001b[32m{+$str+}\u001B[0m';
+
   String toPrettyString() {
-    String identical(String str) => '\u001b[90m$str\u001B[0m';
-    String deletion(String str) => '\u001b[31m[-$str-]\u001B[0m';
-    String insertion(String str) => '\u001b[32m{+$str+}\u001B[0m';
 
     final buffer = StringBuffer();
     for (final difference in this) {

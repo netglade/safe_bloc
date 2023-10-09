@@ -15,7 +15,7 @@ abstract class SafeBlocBase<STATE, EFFECT> extends BlocBase<STATE>
 
   /// A method that is called each time the exception in the inherited Bloc or Cubit is thrown.
   @protected
-  FutureOr<void> onUnexpectedError(Object? error, StackTrace stackTrace, String? trackingId) {
+  Future<void> onUnexpectedError(Object? error, StackTrace stackTrace, String? trackingId) {
     return Future.value();
   }
 }
@@ -35,13 +35,13 @@ mixin SafeBlocBaseMixin<STATE, EFFECT> on BlocBase<STATE> {
   @internal
   Future<void> safeCallInternal(
     void Function(STATE state) emit,
-    FutureOr<void> Function(String trackingId) callback, {
-    required FutureOr<void> Function(EFFECT effect) invokeActionSideEffect,
+    Future<void> Function(String trackingId) callback, {
+    required void Function(EFFECT effect) invokeActionSideEffect,
     String? devErrorMessage,
     bool isAction = false,
     bool ignoreError = false,
-    FutureOr<void> Function(Object? error, StackTrace stackTrace)? onIgnoreError,
-    FutureOr<void> Function(Object? error, StackTrace stackTrace, String? trackingId)? onError,
+    Future<void> Function(Object? error, StackTrace stackTrace)? onIgnoreError,
+    Future<void> Function(Object? error, StackTrace stackTrace, String? trackingId)? onError,
   }) async {
     final trackingId = TrackingIdService.createTrackingId();
 
@@ -50,14 +50,14 @@ mixin SafeBlocBaseMixin<STATE, EFFECT> on BlocBase<STATE> {
     }
     // ignore: avoid_catches_without_on_clauses, catch them all
     catch (e, stacktrace) {
-      onError?.call(e, stacktrace, trackingId);
+      await onError?.call(e, stacktrace, trackingId);
       final isTest = Platform.environment.containsKey('FLUTTER_TEST');
 
       if (ignoreError) {
         // * In test environment we want to exception to propagate outside
         if (isTest) rethrow;
 
-        return onIgnoreError?.call(e, stacktrace);
+        return await onIgnoreError?.call(e, stacktrace);
       }
 
       final error = UnexpectedError(error: e, stackTrace: stacktrace, devMessage: devErrorMessage, isAction: isAction);
@@ -77,4 +77,41 @@ mixin SafeBlocBaseMixin<STATE, EFFECT> on BlocBase<STATE> {
       if (isTest) rethrow;
     }
   }
+
+ /// Synchronous version of [safeCallInternal] method.
+ @internal
+  void safeCallInternalSync(
+    void Function(STATE state) emit,
+    void Function(String trackingId) callback, {
+    required void Function(EFFECT effect) invokeActionSideEffect,
+    String? devErrorMessage,
+    bool isAction = false,
+    bool ignoreError = false,
+    void Function(Object? error, StackTrace stackTrace)? onIgnoreError,
+    void Function(Object? error, StackTrace stackTrace, String? trackingId)? onError,
+  }) =>
+      unawaited(
+        safeCallInternal(
+          emit,
+          (trackingId) {
+            callback(trackingId);
+
+            return Future.value();
+          },
+          invokeActionSideEffect: invokeActionSideEffect,
+          devErrorMessage: devErrorMessage,
+          isAction: isAction,
+          ignoreError: ignoreError,
+          onIgnoreError: (error, stackTrace) {
+            onIgnoreError?.call(error, stackTrace);
+
+            return Future.value();
+          },
+          onError: (error, stackTrace, trackingId) {
+            onError?.call(error, stackTrace, trackingId);
+
+            return Future.value();
+          },
+        ),
+      );
 }

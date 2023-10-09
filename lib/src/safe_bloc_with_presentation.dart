@@ -51,17 +51,19 @@ abstract class SafeBlocWithPresentation<EVENT, STATE, EFFECT> extends Bloc<EVENT
     String? devErrorMessage,
     bool isAction = false,
     bool ignoreError = false,
-    FutureOr<void> Function(Object? error, StackTrace stackTrace)? onIgnoreError,
+    Future<void> Function(Object? error, StackTrace stackTrace)? onIgnoreError,
     EventTransformer<E>? transformer,
   }) {
     on<E>(
       (event, emit) => safeCallInternal(
         emit.call,
-        (trackingId) => handler(
-          event,
-          SafeEmitter(bloc: this, emitter: emit),
-          trackingId: trackingId,
-        ),
+        (trackingId) async {
+          await handler(
+            event,
+            SafeEmitter(bloc: this, emitter: emit),
+            trackingId: trackingId,
+          );
+        },
         devErrorMessage: devErrorMessage,
         isAction: isAction,
         ignoreError: ignoreError,
@@ -74,5 +76,5 @@ abstract class SafeBlocWithPresentation<EVENT, STATE, EFFECT> extends Bloc<EVENT
   }
 
   @override
-  FutureOr<void> onUnexpectedError(Object? error, StackTrace stackTrace, String? trackingId) => Future.value();
+  Future<void> onUnexpectedError(Object? error, StackTrace stackTrace, String? trackingId) => Future.value();
 }

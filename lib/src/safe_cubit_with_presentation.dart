@@ -21,13 +21,13 @@ abstract class SafeCubitWithPresentation<STATE, EFFECT> extends Cubit<STATE>
   ///  - [ignoreError]  - Bool that indicates whether the exception should be ignored. If set to `true`, the exception is caught, but no error state is emitted.
   ///  - [onIgnoreError] - A callback that is invoked if the exception in the `callback` occurs and `ignoreError` parameter is set to `true`.
   @protected
-  FutureOr<void> safeCall(
-    FutureOr<void> Function(String trackingId) callback, {
+  Future<void> safeCall(
+    Future<void> Function(String trackingId) callback, {
     String? devErrorMessage,
     bool isAction = false,
     bool ignoreError = false,
     // ignore: avoid-dynamic, has to be dynamic
-    FutureOr<void> Function(dynamic error, StackTrace stackTrace)? onIgnoreError,
+    Future<void> Function(dynamic error, StackTrace stackTrace)? onIgnoreError,
   }) =>
       safeCallInternal(
         safeEmit,
@@ -40,6 +40,27 @@ abstract class SafeCubitWithPresentation<STATE, EFFECT> extends Cubit<STATE>
         onError: onUnexpectedError,
       );
 
+  /// Synchronous version of [safeCall] method.
+  @protected
+  void safeCallSync(
+      void Function(String trackingId) callback, {
+        String? devErrorMessage,
+        bool isAction = false,
+        bool ignoreError = false,
+        // ignore: avoid-dynamic, has to be dynamic
+        void Function(dynamic error, StackTrace stackTrace)? onIgnoreError,
+      }) =>
+      safeCallInternalSync(
+        safeEmit,
+        (trackingId) => callback(trackingId),
+        devErrorMessage: devErrorMessage,
+        isAction: isAction,
+        ignoreError: ignoreError,
+        onIgnoreError: onIgnoreError,
+        invokeActionSideEffect: emitPresentation,
+        onError: (error, stacktrace, trackingId) => unawaited(onUnexpectedError(error, stacktrace, trackingId)),
+      );
+
   @override
-  FutureOr<void> onUnexpectedError(Object? error, StackTrace stackTrace, String? trackingId) => Future.value();
+  Future<void> onUnexpectedError(Object? error, StackTrace stackTrace, String? trackingId) => Future.value();
 }
