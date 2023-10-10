@@ -1,3 +1,6 @@
+## 1.0.0
+- `safeCallSync` method added to README
+
 ## 1.0.0-rc.3
 - synchronous`safeCallSync` method added for cubits
 
