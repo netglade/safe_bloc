@@ -1,3 +1,6 @@
+## 1.0.2
+- Fix pub icons again 🤡.
+
 ## 1.0.1
 - Fix pub icons.
 
