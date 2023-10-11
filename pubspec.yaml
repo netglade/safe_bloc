@@ -1,6 +1,6 @@
 name: safe_bloc
 description: An extension to bloc state management library that manages unexpected exceptions.
-version: 1.0.1
+version: 1.0.2
 repository: https://github.com/netglade/safe_bloc
 issue_tracker: https://github.com/netglade/safe_bloc/issues
 screenshots:
@@ -8,7 +8,7 @@ screenshots:
     path: doc/icon.png
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   bloc: ^8.1.2
