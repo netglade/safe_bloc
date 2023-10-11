@@ -1,8 +1,11 @@
+## 1.0.1
+- Fix pub icons.
+
 ## 1.0.0
-- `safeCallSync` method added to README
+- Add description of `safeCallSync` to README.
 
 ## 1.0.0-rc.3
-- synchronous`safeCallSync` method added for cubits
+- Add synchronous`safeCallSync` method to support cubits.
 
 ## 1.0.0-rc.2
 - `UnexpectedErrorAPI` renamed to -> `UnexpectedErrorBase`
