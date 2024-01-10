@@ -1,3 +1,7 @@
+## 1.1.0
+- `errorMapper` parameter added for mapping individual exceptions to bloc/cubit states
+- typdefs for callbacks added
+
 ## 1.0.2
 - Fix pub icons again 🤡.
 
