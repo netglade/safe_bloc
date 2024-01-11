@@ -51,8 +51,9 @@ abstract class SafeBlocWithPresentation<EVENT, STATE, EFFECT> extends Bloc<EVENT
     String? devErrorMessage,
     bool isAction = false,
     bool ignoreError = false,
-    Future<void> Function(Object? error, StackTrace stackTrace)? onIgnoreError,
+    OnIgnoreError? onIgnoreError,
     EventTransformer<E>? transformer,
+    ErrorMapper<STATE>? errorMapper,
   }) {
     on<E>(
       (event, emit) => safeCallInternal(
@@ -70,6 +71,7 @@ abstract class SafeBlocWithPresentation<EVENT, STATE, EFFECT> extends Bloc<EVENT
         onIgnoreError: onIgnoreError,
         invokeActionSideEffect: emitPresentation,
         onError: onUnexpectedError,
+        errorMapper: errorMapper,
       ),
       transformer: transformer,
     );

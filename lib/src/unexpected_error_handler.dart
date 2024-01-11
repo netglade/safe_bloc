@@ -26,6 +26,7 @@ class UnexpectedErrorHandler<BLOC extends SafeBlocBase<STATE, BaseEffect>, STATE
   final Widget child;
 
   /// Callback that returns a [Widget] that is displayed if state that implements [UnexpectedErrorBase] is emitted by [BLOC].
+  // ignore: prefer-correct-callback-field-name, does not need to start with on, returns error screen Widget
   final UnexpectedErrorWidgetBuilder? errorScreen;
 
   /// Callback that is invoked if event that implements [UnexpectedErrorBase] is emitted by [BLOC].

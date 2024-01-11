@@ -84,6 +84,7 @@ Both `onSafe` and `safeCall` provide a unique `trackingId` that can be used to t
 * `isAction`- bool that indicates if the method is an error action or error state. When set to `true`, `UnexpectedErrorHandler` shows an error dialog or calls `onErrorAction` callback if specified. When set to `false` (default), `UnexpectedErrorHandler` shows an error screen specified by `errorScreen` parameter.
 * `ignoreError` - bool that indicates whether the exception should be ignored. If set to `true`, the exception is caught, but MyAppErrorState is not emitted.
 * `onIgnoreError`(optional) - a callback that is invoked if the exception occurs and `ignoreError` parameter is set to `true`
+* `errorMapper`(optional) - a function that maps individual exceptions to bloc/cubit states. If null, all exceptions are mapped to `MyAppErrorState`.
 
 Additionally, `SafeBloc` and `SafeCubit` offer the option to override the `onUnexpectedError` method. This method is invoked whenever an exception is thrown so that it can be useful for exception logging.
 

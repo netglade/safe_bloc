@@ -22,12 +22,12 @@ abstract class SafeCubitWithPresentation<STATE, EFFECT> extends Cubit<STATE>
   ///  - [onIgnoreError] - A callback that is invoked if the exception in the `callback` occurs and `ignoreError` parameter is set to `true`.
   @protected
   Future<void> safeCall(
-    Future<void> Function(String trackingId) callback, {
+    Callback callback, {
     String? devErrorMessage,
     bool isAction = false,
     bool ignoreError = false,
-    // ignore: avoid-dynamic, has to be dynamic
-    Future<void> Function(dynamic error, StackTrace stackTrace)? onIgnoreError,
+    OnIgnoreError? onIgnoreError,
+    ErrorMapper<STATE>? errorMapper,
   }) =>
       safeCallInternal(
         safeEmit,
@@ -38,18 +38,18 @@ abstract class SafeCubitWithPresentation<STATE, EFFECT> extends Cubit<STATE>
         onIgnoreError: onIgnoreError,
         invokeActionSideEffect: emitPresentation,
         onError: onUnexpectedError,
+        errorMapper: errorMapper,
       );
 
   /// Synchronous version of [safeCall] method.
   @protected
   void safeCallSync(
-      void Function(String trackingId) callback, {
-        String? devErrorMessage,
-        bool isAction = false,
-        bool ignoreError = false,
-        // ignore: avoid-dynamic, has to be dynamic
-        void Function(dynamic error, StackTrace stackTrace)? onIgnoreError,
-      }) =>
+    SyncCallback callback, {
+    String? devErrorMessage,
+    bool isAction = false,
+    bool ignoreError = false,
+    OnIgnoreError? onIgnoreError,
+  }) =>
       safeCallInternalSync(
         safeEmit,
         (trackingId) => callback(trackingId),

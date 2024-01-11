@@ -1,4 +1,4 @@
-// ignore_for_file: prefer-static-class, invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member, depend_on_referenced_packages
+// ignore_for_file: prefer-static-class, invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member, depend_on_referenced_packages, prefer-typedefs-for-callbacks
 
 import 'dart:async';
 import 'dart:core';
@@ -84,9 +84,9 @@ Future<void> testBloc<B extends BlocPresentationMixin<State, Event>, State, Even
         await act?.call(bloc);
         // Ignored in order to capture also Error types.
         // ignore: avoid_catches_without_on_clauses
-      } catch (error) {
+      } catch (e) {
         if (errors == null) rethrow;
-        unhandledErrors.add(error);
+        unhandledErrors.add(e);
       }
       if (wait != null) await Future<void>.delayed(wait);
       await Future<void>.delayed(Duration.zero);
@@ -172,8 +172,10 @@ String _diff<State>({required List<State> expected, required List<State> actual}
   final differences = diff(expected.toString(), actual.toString());
   buffer
     ..writeln('${"=" * 4} diff ${"=" * 40}')
+    // ignore: avoid-duplicate-cascades, works as string builder
     ..writeln()
     ..writeln(differences.toPrettyString())
+    // ignore: avoid-duplicate-cascades, works as string builder
     ..writeln()
     ..writeln('${"=" * 4} end diff ${"=" * 36}');
 

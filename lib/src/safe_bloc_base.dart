@@ -20,28 +20,49 @@ abstract class SafeBlocBase<STATE, EFFECT> extends BlocBase<STATE>
   }
 }
 
+typedef ErrorStateGetter<STATE> = STATE Function(UnexpectedError error);
+
+typedef ErrorEffectGetter<EFFECT> = EFFECT Function(UnexpectedError error);
+
+typedef Emit<STATE> = void Function(STATE state);
+
+typedef InvokeEffect<EFFECT> = void Function(EFFECT effect);
+
+typedef Callback = Future<void> Function(String trackingId);
+
+typedef SyncCallback = void Function(String trackingId);
+
+typedef OnIgnoreError = Future<void> Function(Object? error, StackTrace stackTrace);
+
+typedef OnError = Future<void> Function(Object? error, StackTrace stackTrace, String? trackingId);
+
+typedef OnErrorSync = void Function(Object? error, StackTrace stackTrace, String? trackingId);
+
+typedef ErrorMapper<STATE> = STATE? Function(Object error);
+
 mixin SafeBlocBaseMixin<STATE, EFFECT> on BlocBase<STATE> {
   /// Returns an instance of state that is emitted if exception in callback occurs and
   /// the callback represents an initial data loading (`isAction` parameter `is false`).
   @protected
-  STATE Function(UnexpectedError error) get errorState;
+  ErrorStateGetter<STATE> get errorState;
 
   /// Returns an instance of effect that is emitted if exception in callback occurs
   /// and the callback represents an user action (`isAction` parameter is `true`).
   @protected
-  EFFECT Function(UnexpectedError) get errorEffect;
+  ErrorEffectGetter<EFFECT> get errorEffect;
 
   /// Wraps a cubit callback in try-catch block and processes them based on specified parameters.
   @internal
   Future<void> safeCallInternal(
-    void Function(STATE state) emit,
-    Future<void> Function(String trackingId) callback, {
-    required void Function(EFFECT effect) invokeActionSideEffect,
+    Emit<STATE> emit,
+    Callback callback, {
+    required InvokeEffect<EFFECT> invokeActionSideEffect,
     String? devErrorMessage,
     bool isAction = false,
     bool ignoreError = false,
-    Future<void> Function(Object? error, StackTrace stackTrace)? onIgnoreError,
-    Future<void> Function(Object? error, StackTrace stackTrace, String? trackingId)? onError,
+    OnIgnoreError? onIgnoreError,
+    OnError? onError,
+    ErrorMapper<STATE>? errorMapper,
   }) async {
     final trackingId = TrackingIdService.createTrackingId();
 
@@ -62,7 +83,9 @@ mixin SafeBlocBaseMixin<STATE, EFFECT> on BlocBase<STATE> {
 
       final error = UnexpectedError(error: e, stackTrace: stacktrace, devMessage: devErrorMessage, isAction: isAction);
 
-      if (isAction) {
+      final resultingErrorState = errorMapper?.call(e);
+
+      if (isAction && resultingErrorState == null) {
         invokeActionSideEffect(errorEffect(error));
 
         // * In test environment we want to exception to propagate outside
@@ -71,24 +94,25 @@ mixin SafeBlocBaseMixin<STATE, EFFECT> on BlocBase<STATE> {
         return;
       }
 
-      emit(errorState(error));
+      emit(resultingErrorState ?? errorState(error));
 
       // * In test environment we want to exception to propagate outside
       if (isTest) rethrow;
     }
   }
 
- /// Synchronous version of [safeCallInternal] method.
- @internal
+  /// Synchronous version of [safeCallInternal] method.
+  @internal
   void safeCallInternalSync(
-    void Function(STATE state) emit,
-    void Function(String trackingId) callback, {
-    required void Function(EFFECT effect) invokeActionSideEffect,
+    Emit<STATE> emit,
+    SyncCallback callback, {
+    required InvokeEffect<EFFECT> invokeActionSideEffect,
     String? devErrorMessage,
     bool isAction = false,
     bool ignoreError = false,
-    void Function(Object? error, StackTrace stackTrace)? onIgnoreError,
-    void Function(Object? error, StackTrace stackTrace, String? trackingId)? onError,
+    OnIgnoreError? onIgnoreError,
+    OnErrorSync? onError,
+    ErrorMapper<STATE>? errorMapper,
   }) =>
       unawaited(
         safeCallInternal(
@@ -112,6 +136,7 @@ mixin SafeBlocBaseMixin<STATE, EFFECT> on BlocBase<STATE> {
 
             return Future.value();
           },
+          errorMapper: errorMapper,
         ),
       );
 }
