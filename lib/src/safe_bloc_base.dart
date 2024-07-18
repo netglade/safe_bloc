@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:safe_bloc/src/tracking_id_service.dart';
 import 'package:safe_bloc/src/unexpected_error.dart';
+import 'package:trackable/trackable.dart';
 
 export 'package:bloc/bloc.dart' show Emitter;
 
@@ -81,7 +81,13 @@ mixin SafeBlocBaseMixin<STATE, EFFECT> on BlocBase<STATE> {
         return await onIgnoreError?.call(e, stacktrace);
       }
 
-      final error = UnexpectedError(error: e, stackTrace: stacktrace, devMessage: devErrorMessage, isAction: isAction);
+      final error = UnexpectedError(
+        error: e,
+        stackTrace: stacktrace,
+        devMessage: devErrorMessage,
+        isAction: isAction,
+        trackingId: trackingId,
+      );
 
       final resultingErrorState = errorMapper?.call(e);
 

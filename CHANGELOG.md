@@ -1,3 +1,9 @@
+## 1.2.0
+- Use `trackable` package
+- UnexpectedError is now implementing GeneralTrackableError.
+- **Breaking**: Remove TrackingIdService. Use trackable package instead.
+- `trackable` package is re-exported with safe_bloc
+
 ## 1.1.0
 - `errorMapper` parameter added for mapping individual exceptions to bloc/cubit states
 - typdefs for callbacks added
