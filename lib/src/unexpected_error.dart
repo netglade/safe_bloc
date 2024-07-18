@@ -1,10 +1,7 @@
-/// Object that stores information about exceptions thrown in Blocs and Cubits.
-class UnexpectedError {
-  // Thrown exception
-  // Exception or Error has unknown type
-  // ignore: avoid-dynamic
-  final dynamic error;
+import 'package:trackable/trackable.dart';
 
+/// Object that stores information about exceptions thrown in Blocs and Cubits.
+class UnexpectedError extends GeneralTrackableError {
   // Exception stacktrace
   final StackTrace stackTrace;
 
@@ -14,15 +11,16 @@ class UnexpectedError {
   // specifies if exception was thrown during the initial data loading (`false`) or during the user action (`true`)
   final bool isAction;
 
-  const UnexpectedError({
-    required this.error,
+  UnexpectedError({
+    required super.error,
     required this.stackTrace,
+    required super.trackingId,
     this.devMessage,
     this.isAction = false,
-  });
+  }) : super(errorId: ErrorIdService.get());
 
   @override
-  String toString() => 'UnexpectedError: error. ${devMessage ?? ''}';
+  String toString() => 'UnexpectedError: error. ${devMessage ?? ''}. ErrorId: $errorId';
 }
 
 /// API that is implemented by Bloc/Cubit's error states and effects.
