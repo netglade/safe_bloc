@@ -62,5 +62,5 @@ abstract class SafeCubitWithPresentation<STATE, EFFECT> extends Cubit<STATE>
       );
 
   @override
-  Future<void> onUnexpectedError(Object? error, StackTrace stackTrace, String? trackingId) => Future.value();
+  Future<void> onUnexpectedError(Object? error, StackTrace stackTrace, String trackingId) => Future.value();
 }
