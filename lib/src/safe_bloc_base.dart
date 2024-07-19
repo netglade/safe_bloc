@@ -15,7 +15,7 @@ abstract class SafeBlocBase<STATE, EFFECT> extends BlocBase<STATE>
 
   /// A method that is called each time the exception in the inherited Bloc or Cubit is thrown.
   @protected
-  Future<void> onUnexpectedError(Object? error, StackTrace stackTrace, String? trackingId) {
+  Future<void> onUnexpectedError(Object? error, StackTrace stackTrace, String trackingId) {
     return Future.value();
   }
 }
@@ -34,9 +34,9 @@ typedef SyncCallback = void Function(String trackingId);
 
 typedef OnIgnoreError = Future<void> Function(Object? error, StackTrace stackTrace);
 
-typedef OnError = Future<void> Function(Object? error, StackTrace stackTrace, String? trackingId);
+typedef OnError = Future<void> Function(Object? error, StackTrace stackTrace, String trackingId);
 
-typedef OnErrorSync = void Function(Object? error, StackTrace stackTrace, String? trackingId);
+typedef OnErrorSync = void Function(Object? error, StackTrace stackTrace, String trackingId);
 
 typedef ErrorMapper<STATE> = STATE? Function(Object error);
 

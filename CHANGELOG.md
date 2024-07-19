@@ -1,3 +1,6 @@
+## 1.2.1
+- Fix nullability of trackingId in error handler
+
 ## 1.2.0
 - Use `trackable` package
 - UnexpectedError is now implementing GeneralTrackableError.

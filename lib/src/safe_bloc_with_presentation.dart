@@ -78,5 +78,5 @@ abstract class SafeBlocWithPresentation<EVENT, STATE, EFFECT> extends Bloc<EVENT
   }
 
   @override
-  Future<void> onUnexpectedError(Object? error, StackTrace stackTrace, String? trackingId) => Future.value();
+  Future<void> onUnexpectedError(Object? error, StackTrace stackTrace, String trackingId) => Future.value();
 }
