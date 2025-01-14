@@ -1,4 +1,4 @@
-// ignore_for_file: prefer-static-class, invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member, depend_on_referenced_packages, prefer-typedefs-for-callbacks
+// ignore_for_file: prefer-static-class, invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member, depend_on_referenced_packages, prefer-typedefs-for-callbacks, prefer-boolean-prefixes, avoid-top-level-members-in-tests, missing-test-assertion, prefer-commenting-future-delayed
 
 import 'dart:async';
 import 'dart:core';
@@ -25,7 +25,7 @@ void blocPresentationTest<B extends BlocPresentationMixin<State, Event>, State, 
   Object? tags,
   List<Event> Function()? expectEvents,
 }) {
-  return test.test(
+  test.test(
     description,
     () async {
       await testBloc<B, State, Event>(
@@ -148,9 +148,6 @@ Alternatively, consider using Matchers in the expect of the blocTest rather than
   );
   if (errors != null) test.expect(unhandledErrors, test.wrapMatcher(errors()));
 }
-
-// Ignore since it is private class for testing purpose
-// ignore: prefer-match-file-name
 class _TestBlocObserver extends BlocObserver {
   final BlocObserver _localObserver;
   final void Function(Object error) _onError;
@@ -172,10 +169,8 @@ String _diff<State>({required List<State> expected, required List<State> actual}
   final differences = diff(expected.toString(), actual.toString());
   buffer
     ..writeln('${"=" * 4} diff ${"=" * 40}')
-    // ignore: avoid-duplicate-cascades, works as string builder
     ..writeln()
     ..writeln(differences.toPrettyString())
-    // ignore: avoid-duplicate-cascades, works as string builder
     ..writeln()
     ..writeln('${"=" * 4} end diff ${"=" * 36}');
 
@@ -184,7 +179,9 @@ String _diff<State>({required List<State> expected, required List<State> actual}
 
 extension on List<Diff> {
   String identical(String str) => '\u001b[90m$str\u001B[0m';
+
   String deletion(String str) => '\u001b[31m[-$str-]\u001B[0m';
+
   String insertion(String str) => '\u001b[32m{+$str+}\u001B[0m';
 
   String toPrettyString() {

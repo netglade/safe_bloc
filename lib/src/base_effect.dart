@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-single-declaration-per-file
+
 import 'package:safe_bloc/src/unexpected_error.dart';
 
 /// General parent effect.

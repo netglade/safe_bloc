@@ -1,4 +1,4 @@
-// ignore_for_file: avoid-bloc-public-methods, prefer-match-file-name, avoid-declaring-call-method
+// ignore_for_file: avoid-bloc-public-methods, prefer-match-file-name, avoid-declaring-call-method, prefer-single-declaration-per-file, prefer-boolean-prefixes
 
 import 'dart:async';
 
