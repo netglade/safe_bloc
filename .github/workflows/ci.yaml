@@ -24,12 +24,12 @@ jobs:
         run: dart analyze .
 
       - name: Install DCM
-        uses: CQLabs/setup-dcm@v1
+        uses: CQLabs/setup-dcm@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run DCM
-        uses: CQLabs/dcm-action@v1
+        uses: CQLabs/dcm-action@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           ci_key: ${{ secrets.DCM_KEY }}
