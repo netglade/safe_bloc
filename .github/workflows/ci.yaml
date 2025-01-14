@@ -26,18 +26,18 @@ jobs:
       - name: Install DCM
         uses: CQLabs/setup-dcm@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run DCM
         uses: CQLabs/dcm-action@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          ci_key: ${{ secrets.DCM_KEY }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          ci-key: ${{ secrets.DCM_KEY }}
           email: ${{ secrets.DCM_EMAIL }}
           folders: .
-          fatal_style: true
-          fatal_performance: true
-          fatal_warnings: true
+          fatal-style: true
+          fatal-performance: true
+          fatal-warnings: true
 
       - name: Dry Publish
         run: dart pub publish --dry-run
