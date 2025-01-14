@@ -188,7 +188,6 @@ extension on List<Diff> {
   String insertion(String str) => '\u001b[32m{+$str+}\u001B[0m';
 
   String toPrettyString() {
-
     final buffer = StringBuffer();
     for (final difference in this) {
       switch (difference.operation) {
