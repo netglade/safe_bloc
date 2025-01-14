@@ -35,9 +35,7 @@ jobs:
           ci-key: ${{ secrets.DCM_KEY }}
           email: ${{ secrets.DCM_EMAIL }}
           folders: .
-          fatal-style: true
-          fatal-performance: true
-          fatal-warnings: true
+          fatal-found: true
 
       - name: Dry Publish
         run: dart pub publish --dry-run
