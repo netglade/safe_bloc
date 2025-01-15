@@ -17,9 +17,6 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Format
-        run: dart format --line-length 120 .
-
       - name: Flutter Analyze
         run: dart analyze .
 

@@ -148,6 +148,7 @@ Alternatively, consider using Matchers in the expect of the blocTest rather than
   );
   if (errors != null) test.expect(unhandledErrors, test.wrapMatcher(errors()));
 }
+
 class _TestBlocObserver extends BlocObserver {
   final BlocObserver _localObserver;
   final void Function(Object error) _onError;
