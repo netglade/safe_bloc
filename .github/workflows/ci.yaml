@@ -17,27 +17,22 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Format
-        run: dart format --line-length 120 .
-
       - name: Flutter Analyze
         run: dart analyze .
 
       - name: Install DCM
-        uses: CQLabs/setup-dcm@v1
+        uses: CQLabs/setup-dcm@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run DCM
-        uses: CQLabs/dcm-action@v1
+        uses: CQLabs/dcm-action@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          ci_key: ${{ secrets.DCM_KEY }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          ci-key: ${{ secrets.DCM_KEY }}
           email: ${{ secrets.DCM_EMAIL }}
           folders: .
-          fatal_style: true
-          fatal_performance: true
-          fatal_warnings: true
+          fatal-found: true
 
       - name: Dry Publish
         run: dart pub publish --dry-run

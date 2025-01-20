@@ -1,3 +1,7 @@
+## 1.3.0
+- Dependencies updated
+- Fix dcm warning
+
 ## 1.2.1
 - Fix nullability of trackingId in error handler
 

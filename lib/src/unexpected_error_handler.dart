@@ -39,6 +39,37 @@ class UnexpectedErrorHandler<BLOC extends SafeBlocBase<STATE, BaseEffect>, STATE
     super.key,
   });
 
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.watch<BLOC?>();
+
+    if (bloc == null) return child;
+
+    return BlocPresentationListener<BLOC, BaseEffect>(
+      listener: _handleError,
+      child: BlocBuilder<BLOC, STATE>(
+        builder: (context, state) {
+          if (state is UnexpectedErrorBase && !state.error.isAction) {
+            return Material(
+              child: Builder(
+                builder: (context) {
+                  final screen = errorScreen;
+                  if (screen == null) {
+                    return Center(child: Text(state.error.toString()));
+                  }
+
+                  return screen(context, state.error);
+                },
+              ),
+            );
+          }
+
+          return child;
+        },
+      ),
+    );
+  }
+
   void _handleError(BuildContext context, BaseEffect effect) {
     // BaseEffect can implement UnexpectedErrorBase
     // ignore: avoid-unrelated-type-assertions
@@ -72,37 +103,6 @@ class UnexpectedErrorHandler<BLOC extends SafeBlocBase<STATE, BaseEffect>, STATE
               child: const Text('OK'),
             ),
         ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = context.watch<BLOC?>();
-
-    if (bloc == null) return child;
-
-    return BlocPresentationListener<BLOC, BaseEffect>(
-      listener: _handleError,
-      child: BlocBuilder<BLOC, STATE>(
-        builder: (context, state) {
-          if (state is UnexpectedErrorBase && !state.error.isAction) {
-            return Material(
-              child: Builder(
-                builder: (context) {
-                  final screen = errorScreen;
-                  if (screen == null) {
-                    return Center(child: Text(state.error.toString()));
-                  }
-
-                  return screen(context, state.error);
-                },
-              ),
-            );
-          }
-
-          return child;
-        },
       ),
     );
   }

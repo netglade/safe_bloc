@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-single-declaration-per-file
+
 import 'package:trackable/trackable.dart';
 
 /// Object that stores information about exceptions thrown in Blocs and Cubits.

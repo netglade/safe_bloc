@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-single-declaration-per-file, prefer-boolean-prefixes, prefer-named-parameters
+
 import 'dart:async';
 import 'dart:io';
 
@@ -78,7 +80,9 @@ mixin SafeBlocBaseMixin<STATE, EFFECT> on BlocBase<STATE> {
         // * In test environment we want to exception to propagate outside
         if (isTest) rethrow;
 
-        return await onIgnoreError?.call(e, stacktrace);
+        await onIgnoreError?.call(e, stacktrace);
+
+        return;
       }
 
       final error = UnexpectedError(
