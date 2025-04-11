@@ -1,3 +1,6 @@
+## 1.4.0
+- Dependencies updated
+
 ## 1.3.0
 - Dependencies updated
 - Fix dcm warning
