@@ -1,3 +1,6 @@
+## 1.4.1
+- Reintroduce removed export of `blocPresentationTest` function
+
 ## 1.4.0
 - Dependencies updated
 
