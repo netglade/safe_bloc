@@ -1,4 +1,4 @@
-// ignore_for_file: prefer-static-class, invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member, depend_on_referenced_packages, prefer-typedefs-for-callbacks, prefer-boolean-prefixes, avoid-top-level-members-in-tests, missing-test-assertion, prefer-commenting-future-delayed
+// ignore_for_file: prefer-static-class, invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member, depend_on_referenced_packages, prefer-typedefs-for-callbacks, prefer-boolean-prefixes, avoid-top-level-members-in-tests, missing-test-assertion, prefer-commenting-future-delayed, prefer-match-file-name
 
 import 'dart:async';
 import 'dart:core';
@@ -28,7 +28,7 @@ void blocPresentationTest<B extends BlocPresentationMixin<State, Event>, State, 
   test.test(
     description,
     () async {
-      await testBloc<B, State, Event>(
+      await _testBloc<B, State, Event>(
         setUp: setUp,
         build: build,
         seed: seed,
@@ -48,8 +48,7 @@ void blocPresentationTest<B extends BlocPresentationMixin<State, Event>, State, 
 
 /// Internal [blocPresentationTest] runner which is only visible for testing.
 /// This should never be used directly -- please use [blocPresentationTest] instead.
-@visibleForTesting
-Future<void> testBloc<B extends BlocPresentationMixin<State, Event>, State, Event>({
+Future<void> _testBloc<B extends BlocPresentationMixin<State, Event>, State, Event>({
   required B Function() build,
   FutureOr<void> Function()? setUp,
   State Function()? seed,
