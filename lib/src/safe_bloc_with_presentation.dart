@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safe_bloc/src/safe_bloc_base.dart';
+import 'package:trackable/trackable.dart';
 
 export 'package:bloc/bloc.dart' show Emitter;
 
@@ -78,5 +79,5 @@ abstract class SafeBlocWithPresentation<EVENT, STATE, EFFECT> extends Bloc<EVENT
   }
 
   @override
-  Future<void> onUnexpectedError(Object? error, StackTrace stackTrace, String trackingId) => Future.value();
+  Future<void> onUnexpectedError(ITrackableError error, StackTrace stackTrace, TrackingId trackingId) => Future.value();
 }

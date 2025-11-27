@@ -9,11 +9,13 @@ import 'package:diff_match_patch/diff_match_patch.dart';
 import 'package:meta/meta.dart';
 import 'package:test/test.dart' as test;
 
+typedef AsyncFutureOrVoidCallback = FutureOr<void> Function();
+
 @isTest
 void blocPresentationTest<B extends BlocPresentationMixin<State, Event>, State, Event>(
   String description, {
   required B Function() build,
-  FutureOr<void> Function()? setUp,
+  AsyncFutureOrVoidCallback? setUp,
   State Function()? seed,
   FutureOr<void> Function(B bloc)? act,
   Duration? wait,
@@ -21,7 +23,7 @@ void blocPresentationTest<B extends BlocPresentationMixin<State, Event>, State, 
   List<State> Function()? expect,
   FutureOr<void> Function(B bloc)? verify,
   test.Matcher Function()? errors,
-  FutureOr<void> Function()? tearDown,
+  AsyncFutureOrVoidCallback? tearDown,
   Object? tags,
   List<Event> Function()? expectEvents,
 }) {
@@ -50,7 +52,7 @@ void blocPresentationTest<B extends BlocPresentationMixin<State, Event>, State, 
 /// This should never be used directly -- please use [blocPresentationTest] instead.
 Future<void> _testBloc<B extends BlocPresentationMixin<State, Event>, State, Event>({
   required B Function() build,
-  FutureOr<void> Function()? setUp,
+  AsyncFutureOrVoidCallback? setUp,
   State Function()? seed,
   FutureOr<void> Function(B bloc)? act,
   Duration? wait,
@@ -58,17 +60,13 @@ Future<void> _testBloc<B extends BlocPresentationMixin<State, Event>, State, Eve
   List<State> Function()? expect,
   FutureOr<void> Function(B bloc)? verify,
   test.Matcher Function()? errors,
-  FutureOr<void> Function()? tearDown,
+  AsyncFutureOrVoidCallback? tearDown,
   List<Event> Function()? expectEvents,
 }) async {
   var shallowEquality = false;
   final unhandledErrors = <Object>[];
   final localBlocObserver = Bloc.observer;
-  final testObserver = _TestBlocObserver(
-    localBlocObserver,
-    unhandledErrors.add,
-  );
-  Bloc.observer = testObserver;
+  Bloc.observer = _TestBlocObserver(localBlocObserver, unhandledErrors.add);
 
   await runZonedGuarded(
     () async {
@@ -82,7 +80,6 @@ Future<void> _testBloc<B extends BlocPresentationMixin<State, Event>, State, Eve
       try {
         await act?.call(bloc);
         // Ignored in order to capture also Error types.
-        // ignore: avoid_catches_without_on_clauses
       } catch (e) {
         if (errors == null) rethrow;
         unhandledErrors.add(e);
