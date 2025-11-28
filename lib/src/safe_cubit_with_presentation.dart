@@ -7,6 +7,7 @@ import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:meta/meta.dart';
 import 'package:safe_bloc/src/extensions.dart';
 import 'package:safe_bloc/src/safe_bloc_base.dart';
+import 'package:trackable/trackable.dart';
 
 export 'package:bloc/bloc.dart' show Emitter;
 
@@ -64,5 +65,5 @@ abstract class SafeCubitWithPresentation<STATE, EFFECT> extends Cubit<STATE>
       );
 
   @override
-  Future<void> onUnexpectedError(Object? error, StackTrace stackTrace, String trackingId) => Future.value();
+  Future<void> onUnexpectedError(ITrackableError error, StackTrace stackTrace, TrackingId trackingId) => Future.value();
 }

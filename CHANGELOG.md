@@ -1,3 +1,7 @@
+## 2.0.0
+- **Breaking**: Most of the public APIs changed to use ITrackableError from trackable package.
+- onUnexpectedError callback now uses ITrackableError.
+
 ## 1.4.1
 - Reintroduce removed export of `blocPresentationTest` function
 

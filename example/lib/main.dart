@@ -124,7 +124,7 @@ class CounterBloc extends SafeBloc<CounterEvent, CounterState> {
   CounterState Function(UnexpectedError error) get errorState => CounterBlocError.new;
 
   @override
-  Future<void> onUnexpectedError(Object? error, StackTrace stackTrace, String trackingId) async {
+  Future<void> onUnexpectedError(ITrackableError error, StackTrace stackTrace, TrackingId trackingId) async {
     if (kDebugMode) {
       print('Exception: $error, $stackTrace');
     }

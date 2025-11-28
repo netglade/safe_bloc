@@ -17,7 +17,7 @@ abstract class SafeBlocBase<STATE, EFFECT> extends BlocBase<STATE>
 
   /// A method that is called each time the exception in the inherited Bloc or Cubit is thrown.
   @protected
-  Future<void> onUnexpectedError(Object? error, StackTrace stackTrace, String trackingId) {
+  Future<void> onUnexpectedError(ITrackableError error, StackTrace stackTrace, TrackingId trackingId) {
     return Future.value();
   }
 }
@@ -34,13 +34,13 @@ typedef Callback = Future<void> Function(String trackingId);
 
 typedef SyncCallback = void Function(String trackingId);
 
-typedef OnIgnoreError = Future<void> Function(Object? error, StackTrace stackTrace);
+typedef OnIgnoreError = Future<void> Function(ITrackableError error, StackTrace stackTrace);
 
-typedef OnError = Future<void> Function(Object? error, StackTrace stackTrace, String trackingId);
+typedef OnError = Future<void> Function(ITrackableError error, StackTrace stackTrace, String trackingId);
 
-typedef OnErrorSync = void Function(Object? error, StackTrace stackTrace, String trackingId);
+typedef OnErrorSync = void Function(ITrackableError error, StackTrace stackTrace, String trackingId);
 
-typedef ErrorMapper<STATE> = STATE? Function(Object error);
+typedef ErrorMapper<STATE> = STATE? Function(ITrackableError error);
 
 mixin SafeBlocBaseMixin<STATE, EFFECT> on BlocBase<STATE> {
   /// Returns an instance of state that is emitted if exception in callback occurs and
@@ -71,20 +71,8 @@ mixin SafeBlocBaseMixin<STATE, EFFECT> on BlocBase<STATE> {
     try {
       await callback(trackingId);
     }
-    // ignore: avoid_catches_without_on_clauses, catch them all
+    // ignore: catch them all
     catch (e, stacktrace) {
-      await onError?.call(e, stacktrace, trackingId);
-      final isTest = Platform.environment.containsKey('FLUTTER_TEST');
-
-      if (ignoreError) {
-        // * In test environment we want to exception to propagate outside
-        if (isTest) rethrow;
-
-        await onIgnoreError?.call(e, stacktrace);
-
-        return;
-      }
-
       final error = UnexpectedError(
         error: e,
         stackTrace: stacktrace,
@@ -93,7 +81,19 @@ mixin SafeBlocBaseMixin<STATE, EFFECT> on BlocBase<STATE> {
         trackingId: trackingId,
       );
 
-      final resultingErrorState = errorMapper?.call(e);
+      await onError?.call(error, stacktrace, trackingId);
+      final isTest = Platform.environment.containsKey('FLUTTER_TEST');
+
+      if (ignoreError) {
+        // * In test environment we want to exception to propagate outside
+        if (isTest) rethrow;
+
+        await onIgnoreError?.call(error, stacktrace);
+
+        return;
+      }
+
+      final resultingErrorState = errorMapper?.call(error);
 
       if (isAction && resultingErrorState == null) {
         invokeActionSideEffect(errorEffect(error));
