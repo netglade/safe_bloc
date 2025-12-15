@@ -22,7 +22,7 @@ class UnexpectedError extends GeneralTrackableError {
   }) : super(errorId: ErrorIdService.get());
 
   @override
-  String toString() => 'UnexpectedError: error. ${devMessage ?? ''}. ErrorId: $errorId';
+  String toString() => 'UnexpectedError: $error. ${devMessage ?? ''}. ErrorId: $errorId. TrackingId: $trackingId';
 }
 
 /// API that is implemented by Bloc/Cubit's error states and effects.
@@ -30,4 +30,7 @@ abstract class UnexpectedErrorBase {
   UnexpectedError get error;
 
   const UnexpectedErrorBase();
+
+  @override
+  String toString() => error.toString();
 }
