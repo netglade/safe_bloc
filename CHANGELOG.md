@@ -1,3 +1,6 @@
+## 2.0.1
+- Fix toString methods of UnexpectedError and UnexpectedErrorBase to include trackingId.
+
 ## 2.0.0
 - **Breaking**: Most of the public APIs changed to use ITrackableError from trackable package.
 - onUnexpectedError callback now uses ITrackableError.
