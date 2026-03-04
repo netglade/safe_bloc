@@ -1,3 +1,10 @@
+## 2.1.0
+- Update dependencies
+  - bloc: ^9.2.0
+  - bloc_presentation: ^1.1.2
+  - flutter_bloc: ^9.1.1
+  - trackable: ^2.0.0
+
 ## 2.0.1
 - Fix toString methods of UnexpectedError and UnexpectedErrorBase to include trackingId.
 
